@@ -1,85 +1,78 @@
-"use client"
-import { Button } from "@/components/ui/button"
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { userAtom } from "@/store/atoms"
-import { FormEvent, useState } from "react"
-import { useRecoilState} from "recoil"
-import {redirect} from "next/navigation"
-import { useToast } from "@/components/ui/use-toast"
-
+"use client";
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { userAtom } from "@/store/atoms";
+import { FormEvent, useState } from "react";
+import { useRecoilState } from "recoil";
+import { redirect } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
 const page = () => {
-  const {toast} = useToast()
+  const { toast } = useToast();
 
-  const [user,setUser] = useRecoilState(userAtom)
-  const [loading, setLoading] = useState(false)
+  const [user, setUser] = useRecoilState(userAtom);
+  const [loading, setLoading] = useState(false);
 
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = async(e: FormEvent)=>{
-    e.preventDefault()
-    if(password === confirmPassword){
-      setLoading(true)
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (password === confirmPassword) {
+      setLoading(true);
       try {
-        const response = await fetch('/api/auth/signin',{
+        const response = await fetch("/api/auth/signin", {
           method: "POST",
-          body:JSON.stringify({name:username,email,password}),
+          body: JSON.stringify({ name: username, email, password }),
           headers: {
-            'Content-Type': 'application/json' 
-          }
-        })
-        const data = await response.json()
-        setLoading(false)
-        if(data.success){
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        setLoading(false);
+        if (data.success) {
           setUser({ success: data.success, user: data.user });
           toast({
             variant: "success",
             description: data.message,
           });
-        }else{
+        } else {
           toast({
             variant: "destructive",
             description: data.message,
           });
         }
       } catch (error) {
-        setLoading(false)
-        if(error instanceof Error){
+        setLoading(false);
+        if (error instanceof Error) {
           toast({
-              variant: "destructive",
-              description: error.message,
-            });
-            toast({
-              variant: "destructive",
-              description: "Some internal error occured",
-            });
+            variant: "destructive",
+            description: error.message,
+          });
+          toast({
+            variant: "destructive",
+            description: "Some internal error occured",
+          });
+        }
       }
-      }
-      
-    }else{
+    } else {
       toast({
         variant: "destructive",
         description: "Password and Confirm Password don't match",
       });
     }
+  };
 
-  }
-
-  if(user.success){
+  if (user.success) {
     redirect("/");
   }
 
-  if(loading){
-    return <>Loading...</>
+  if (loading) {
+    return <>Loading...</>;
   }
 
   return (
@@ -91,7 +84,7 @@ const page = () => {
         <CardContent>
           <form onSubmit={handleSubmit}>
             <Input
-            className="mb-4"
+              className="mb-4"
               placeholder="Username"
               label="Username"
               value={username}
@@ -100,7 +93,7 @@ const page = () => {
               }}
             />
             <Input
-            className="mb-4"
+              className="mb-4"
               type="email"
               placeholder="Email"
               label="Email"
@@ -110,7 +103,7 @@ const page = () => {
               }}
             />
             <Input
-            className="mb-4"
+              className="mb-4"
               type="password"
               placeholder="Password"
               label="Password"
@@ -120,7 +113,7 @@ const page = () => {
               }}
             />
             <Input
-            className="mb-4"
+              className="mb-4"
               type="password"
               placeholder="Confirm Password"
               label="Confirm Password"
@@ -135,6 +128,6 @@ const page = () => {
       </Card>
     </div>
   );
-}
+};
 
-export default page
+export default page;

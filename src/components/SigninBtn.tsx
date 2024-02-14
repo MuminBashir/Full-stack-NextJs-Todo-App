@@ -26,17 +26,17 @@ const SigninBtn = () => {
       const response = await fetch("/api/auth/logout", {
         method: "POST",
       });
-      
+
       const data = await response.json();
-      
+
       setLoading(false);
       if (data.success) {
         setUser({ success: false, user: {} });
-        await new Promise(resolve=>{
-          setTimeout(()=>{
-            resolve(null)
-          },1)
-        })
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(null);
+          }, 1);
+        });
         toast({
           variant: "success",
           description: data.message,
@@ -78,7 +78,7 @@ const SigninBtn = () => {
           description: err.message,
         });
       });
-  }, []);
+  }, [setUser,toast]);
 
   if (loading) {
     return <>Loading...</>;
@@ -90,12 +90,12 @@ const SigninBtn = () => {
     </Button>
   ) : (
     <>
-        <Button className="w-full md:w-18" onClick={handleSignin}>
-          Signin
-        </Button>
-        <Button className="w-full md:w-18" onClick={handleLogin}>
-          Login
-        </Button>
+      <Button className="w-full md:w-18" onClick={handleSignin}>
+        Signin
+      </Button>
+      <Button className="w-full md:w-18" onClick={handleLogin}>
+        Login
+      </Button>
     </>
   );
 };

@@ -1,8 +1,8 @@
 import { errorHandler } from "@/middlewares/error";
 import User from "@/models/user";
 import {
-  generateToken,
   connectDB,
+  generateToken,
   hashPassword,
   setCookie,
 } from "@/utils/features";

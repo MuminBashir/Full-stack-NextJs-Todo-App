@@ -1,12 +1,11 @@
-import mongoose, { Document } from 'mongoose';
-
+import mongoose, { Document } from "mongoose";
 
 interface IUser extends Document {
-    name: string;
-    email: string;
-    password: string
-    todos: mongoose.Schema.Types.ObjectId[]
-  }
+  name: string;
+  email: string;
+  password: string;
+  todos: mongoose.Schema.Types.ObjectId[];
+}
 
 const schema = new mongoose.Schema({
   name: {
@@ -26,20 +25,19 @@ const schema = new mongoose.Schema({
   todos: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Todo'
-    }
-  ]
-
+      ref: "Todo",
+    },
+  ],
 });
 
 let User: mongoose.Model<IUser>;
 
 if (mongoose.models.User) {
   // If the model already exists, use the existing model
-  User = mongoose.model<IUser>('User');
+  User = mongoose.model<IUser>("User");
 } else {
   // If the model does not exist, define and compile it
-  User = mongoose.model<IUser>('User', schema);
+  User = mongoose.model<IUser>("User", schema);
 }
 
 export default User;

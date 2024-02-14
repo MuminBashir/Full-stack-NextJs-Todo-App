@@ -1,5 +1,4 @@
-import mongoose, { Document } from 'mongoose';
-
+import mongoose, { Document } from "mongoose";
 
 interface ITodo extends Document {
   title: string;
@@ -22,24 +21,24 @@ const schema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  owner:{
+  owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 let Todo: mongoose.Model<ITodo>;
 
 if (mongoose.models.Todo) {
   // If the model already exists, use the existing model
-  Todo = mongoose.model<ITodo>('Todo');
+  Todo = mongoose.model<ITodo>("Todo");
 } else {
   // If the model does not exist, define and compile it
-  Todo = mongoose.model<ITodo>('Todo', schema);
+  Todo = mongoose.model<ITodo>("Todo", schema);
 }
 
 export default Todo;
